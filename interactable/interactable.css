@@ -1,0 +1,25 @@
+/* Interactable start */
+
+.interactable_canvas {
+    position: relative;
+    background-color: #ddd;
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    width: 120px;
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+}
+
+.interactable_app {
+    position: absolute;
+    background: #29e;
+    box-shadow: 0 0 10px yellow;
+}
+
+.interactable_highlight {
+    box-shadow: 0 0 10px red;
+}
+
+
+/* Interactable end */

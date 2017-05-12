@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title></title>
+    <style>
+    html,
+    body {
+    /*	position: fixed;
+    	left: 0;
+    	top: 0;
+    	right: 0;
+    	bottom: 0;*/
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #root {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    </style>
+    <link rel="stylesheet" href="interactable/interactable.css">
+	<script src="libs/interact.js"></script>
+	<script src="interactable/interactable.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script>
+    var interactable = new Interactable({
+        numberX: 3,
+        numberY: 3,
+        pixelX: 1920,
+        pixelY: 1080
+    });
+    interactable
+        .initCanvas('#root')
+        .initApps([
+        {
+        	title: 'app1',
+            width: '150px',
+            height: '150px',
+            left: '50px',
+            top: '50px'
+        }, 
+        {
+        	title: 'app2',
+            width: '200px',
+            height: '100px',
+            left: '300px',
+            top: '150px'
+        }, 
+        {
+        	title: 'app3',
+            width: '100px',
+            height: '100px',
+            left: '400px',
+            top: '30px'
+        }
+        ])
+        .bindEventCallback({
+        	dragend: function(event) {console.log('dragend -> dragged')},
+        	resizeend: function(event) {console.log('resizeend -> resized')},
+        	tap: function(event) {console.log('tap -> highlight')},
+        	doubletap: function(event) {console.log('doubletap -> max')},
+        	hold: function(event) {console.log('hold -> deleted')}
+        });
+    </script>
+</body>
+
+</html>

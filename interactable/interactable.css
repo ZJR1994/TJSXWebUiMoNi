@@ -2,7 +2,9 @@
 
 .interactable_canvas {
     position: relative;
-    background-color: #ddd;
+    /*background-color: #ddd;*/
+    /*border: 1px solid #999;*/
+    box-shadow: 0 0 1px #999;
     color: white;
     font-size: 20px;
     font-family: sans-serif;
@@ -11,10 +13,39 @@
     box-sizing: border-box;
 }
 
+.interactable_canvas-background {
+    width: 100%;
+    height: 100%;
+    border-spacing: 0;
+    box-sizing: border-box;
+    background: url('http://192.168.20.100/static/images/tjlogo-long.png') center no-repeat;
+}
+
+.interactable_canvas-background tr {
+    border-bottom: 1px dashed #ccc
+}
+
+.interactable_canvas-background td {
+    border-right: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+}
+
+.interactable_canvas-background tr td:last-child {
+    border-right: 0
+}
+
+.interactable_canvas-background tr:last-child td {
+    border-bottom: 0
+}
+
 .interactable_app {
     position: absolute;
-    background: #29e;
+    background: rgba(34, 153, 238, 0.6);
+    /*background-color: rgba(255, 255, 255, 0.5);*/
+    color: #333;
     box-shadow: 0 0 10px yellow;
+    font-size: 12px;
+    overflow: hidden;
 }
 
 .interactable_highlight {

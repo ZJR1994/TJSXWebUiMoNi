@@ -4,7 +4,7 @@
 var screenInfo;
 var appsInfo = [];
 var interactable;
-var baseUrl = 'http://192.168.1.47:8002/';
+var baseUrl = 'http://192.168.20.100/';
 var baseUrlHost = window.location.host;
 
 
@@ -59,11 +59,84 @@ function updateStatus(message) {
     browApp.style.top = browserCor.top;
 }
 
-fetch(baseUrl + 'getAllAppNB/')
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
+// fetch(baseUrl + 'getAllAppNB/')
+//     .then(function (response) {
+//         return response.json();
+//     })
+//     .then(function (data) {
+//         var screenArr = data[0].screen_info;
+//         var rsChange = data[0].rs_change;
+//         console.log(rsChange)
+//         //屏幕信息
+//         screenInfo = {
+//             numberX: screenArr[1], //x轴屏幕个数
+//             numberY: screenArr[2], //y轴屏幕个数
+//             pixelX: screenArr[5], //x轴单个屏幕分辨率
+//             pixelY: screenArr[6] //y轴单个屏幕分辨率
+//         };
+//
+//         for (var key in rsChange) {
+//             var infos = rsChange[key]
+//             appsInfo.push({
+//                 id: key,
+//                 title: infos[0],
+//                 cor: [infos[2], infos[3], infos[4], infos[5]]
+//             });
+//         }
+//
+//         function updteApp(event) {
+//             var target = event.target;
+//             var id = target.getAttribute('data-id');
+//             var cor = interactable.toScreenCor({
+//                 left: target.style.left,
+//                 top: target.style.top,
+//                 width: target.style.width,
+//                 height: target.style.height
+//             });
+//
+//             // 更新数据
+//             appsInfo = appsInfo.map(function (app) {
+//                 if (app.id === id) {
+//                     app.cor = [cor.l, cor.r, cor.b, cor.t];
+//                     app.cor = app.cor.map(function (v) {
+//                         return parseInt(v, 10);
+//                     });
+//                     fetch(baseUrl + 'api/?func=resizeWindow,' + id + ',' + app.cor.toString())
+//                 }
+//                 return app;
+//             });
+//         }
+//
+//         interactable = new Interactable(screenInfo);
+//
+//         interactable
+//             .initCanvas('#root')
+//             .bindEventCallback({
+//                 dragend: updteApp,
+//                 resizeend: updteApp,
+//                 doubletap: updteApp,
+//                 gesturableend: updteApp,
+//                 tap: function (event) {
+//                     console.log('tap -> highlight')
+//                 },
+//                 hold: function (event) {
+//                     if (window.confirm('Delete?')) {
+//                         var el = event.target;
+//                         var id = el.getAttribute('data-id');
+//                         el.parentNode.removeChild(el);
+//                         fetch(baseUrl + 'api/?func=closeApp,' + id);
+//                     }
+//                 }
+//             })
+//             .initApps(appsInfo)
+//     });
+
+$.ajax({
+    type: "GET",
+    url: baseUrl + 'getAllAppNB/',
+    dataType: "json",
+    success: function (data) {
+        console.log(data);
         var screenArr = data[0].screen_info;
         var rsChange = data[0].rs_change;
         console.log(rsChange)
@@ -101,7 +174,19 @@ fetch(baseUrl + 'getAllAppNB/')
                     app.cor = app.cor.map(function (v) {
                         return parseInt(v, 10);
                     });
-                    fetch(baseUrl + 'api/?func=resizeWindow,' + id + ',' + app.cor.toString())
+                    // fetch(baseUrl + 'api/?func=resizeWindow,' + id + ',' + app.cor.toString())
+                    $.ajax({
+                        type: "GET",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        url: baseUrl + 'api/?func=resizeWindow,' + id + ',' + app.cor.toString(),
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data)
+                        }
+                    });
                 }
                 return app;
             });
@@ -124,12 +209,25 @@ fetch(baseUrl + 'getAllAppNB/')
                         var el = event.target;
                         var id = el.getAttribute('data-id');
                         el.parentNode.removeChild(el);
-                        fetch(baseUrl + 'api/?func=closeApp,' + id);
+                        // fetch(baseUrl + 'api/?func=closeApp,' + id);
+                        $.ajax({
+                            type: "GET",
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            url: baseUrl + 'api/?func=closeApp,' + id,
+                            dataType: "json",
+                            success: function (data) {
+                                console.log(data)
+                            }
+                        });
                     }
                 }
             })
             .initApps(appsInfo)
-    });
+    }
+});
 
 window.onresize = function () {
     interactable.initCanvas('#root').initApps(appsInfo);

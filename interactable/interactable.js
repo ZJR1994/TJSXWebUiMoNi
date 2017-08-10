@@ -14,6 +14,7 @@
         var conW = containerDom.clientWidth;
         var conH = containerDom.clientHeight;
         var canvasW, canvasH;
+        console.log(this)
         var ratio = (this.numberX * this.pixelX) / (this.numberY * this.pixelY);
         if (ratio > conW / conH) {
             canvasW = conW - 10;
@@ -191,12 +192,15 @@
 
                     var nextWidth = parseInt(el.style.width, 10) * scale;
                     var nextHeight = parseInt(el.style.height, 10) * scale;
+                    var nextTop = parseInt(el.style.top, 10) * -scale;
+                    var nextLeft = parseInt(el.style.left, 10) * -scale;
 
                     if (nextWidth < 50 || nextHeight < 50) return;
 
                     el.style.width = nextWidth + 'px';
                     el.style.height = nextHeight + 'px';
-
+                    el.style.top = nextTop + 'px';
+                    el.style.left = nextLeft + 'px';
 
                     // el.textContent = Math.round(parseInt(el.style.width, 10)) + '×' + Math.round(parseInt(el.style.height, 10));
                 },
